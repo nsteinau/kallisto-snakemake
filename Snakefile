@@ -21,10 +21,8 @@ validate(units, schema="schemas/units.schema.yaml")
 
 rule all:
     input:
-        expand(["results/diffexp/{contrast}.diffexp.tsv",
-                "results/diffexp/{contrast}.ma-plot.svg"],
-               contrast=config["diffexp"]["contrasts"]),
-        "results/pca.svg",
+        expand("fusions/{sample}-{unit}",zip,
+        sample=units.index.get_level_values(0), unit=units.index.get_level_values(1)),
         "qc/multiqc_report.html"
 
 

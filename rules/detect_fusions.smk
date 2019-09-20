@@ -7,9 +7,8 @@ rule detect_fusions:
     params:
         index=config["ref"]["index"]
     conda:
-        "../envs/pandas.yaml"
+        "../envs/meta.yaml"
     shell:
         "STAR-Fusion --genome_lib_dir {params.index} \
              -J {input} \
              --output_dir {output}"
-             
