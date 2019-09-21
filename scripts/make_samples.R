@@ -1,7 +1,0 @@
-library(dplyr)
-library(magrittr)
-sra <- read.csv(file=snakemake@input[[1]])
-samples <- sra %>% dplyr::select(sample = Sample.Name) %>% dplyr::mutate(condition="untreated")
-units <- sra %>% dplyr::select(sample = Sample.Name, unit = Run) %>% dplyr::mutate(fq1=gsub("(.+)","\\1.fq.gz",unit),fq2=NA)
-samples %>% write.table(file = snakemake@output[[1]])
-units %>% write.table(file = snakemake@output[[2]])

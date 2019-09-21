@@ -1,13 +1,10 @@
-{% set version = "1.7.0" %}
-{% set sha256 = "86470cad8694253b4305272750193d8d01af8c9049819fcf14f723c85b92fb57" %}
-
 package:
   name: star-fusion
-  version: {{ version }}
+  version: 1.7.0
 
 source:
-  url: https://github.com/STAR-Fusion/STAR-Fusion/releases/download/v{{ version }}/STAR-Fusion-v{{ version }}.FULL.tar.gz
-  sha256: {{ sha256 }}
+  url: https://github.com/STAR-Fusion/STAR-Fusion/releases/download/v1.7.0/STAR-Fusion-v1.7.0.FULL.tar.gz
+  sha256: 86470cad8694253b4305272750193d8d01af8c9049819fcf14f723c85b92fb57
 
 build:
   number: 1
