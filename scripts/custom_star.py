@@ -21,11 +21,20 @@ if fq1.endswith(".gz"):
 else:
     readcmd = ""
 
+if snakemake.config["star_fusion"]:
+    commands = extra
+else:
+    commands = "--genomeLoad LoadAndKeep"
+
 outprefix = os.path.dirname(snakemake.output[0]) + "/"
+GTF = "--sjdbGTFfile {}".format(snakemake.config["ref"]["annotation"])
 
 shell(
     "STAR "
-    "{extra} "
+    "--quantMode GeneCounts "
+    "--outSAMtype BAM Unsorted "
+    "--runMode alignReads "
+    "{commands} "
     "--runThreadN {snakemake.threads} "
     "--genomeDir {snakemake.params.index} "
     "--readFilesIn {fq1} "

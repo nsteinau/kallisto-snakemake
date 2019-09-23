@@ -5,10 +5,11 @@ rule detect_fusions:
     output:
         directory("fusions/{sample}-{unit}")
     params:
-        index=config["ref"]["index"]
+        index=config["ref"]["fusion_index"]
     conda:
-        "../envs/meta.yaml"
+        "../envs/starfusion.yaml"
     shell:
         "STAR-Fusion --genome_lib_dir {params.index} \
              -J {input} \
+             --CPU {threads} \
              --output_dir {output}"

@@ -21,9 +21,11 @@ validate(units, schema="schemas/units.schema.yaml")
 
 rule all:
     input:
-        expand("fusions/{sample}-{unit}",zip,
+        expand("star/{sample}-{unit}/Aligned.out.bam",zip,
         sample=units.index.get_level_values(0), unit=units.index.get_level_values(1)),
-        "qc/multiqc_report.html"
+        expand("star/{sample}-{unit}/ReadsPerGene.out.tab",zip,
+        sample=units.index.get_level_values(0), unit=units.index.get_level_values(1)),
+        "counts/all.tsv"
 
 
 ##### setup singularity #####
@@ -46,4 +48,4 @@ include: "rules/align.smk"
 include: "rules/qc.smk"
 include: "rules/detect_fusions.smk"
 include: "rules/download_fastq.smk"
-#include: "rules/diffexp.smk"
+include: "rules/diffexp.smk"

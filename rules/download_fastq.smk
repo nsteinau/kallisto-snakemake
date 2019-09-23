@@ -1,7 +1,7 @@
 
 rule get_fastq:
     output:
-        "{sample}-{unit}.fastq.gz"
+        temp("{sample}-{unit}.fastq.gz")
     threads: 24
     shell:
         """

@@ -21,7 +21,7 @@ rule cutadapt:
     input:
         get_fastq
     output:
-        fastq="trimmed/{sample}-{unit}.fastq.gz",
+        fastq=temp("trimmed/{sample}-{unit}.fastq.gz"),
         qc="trimmed/{sample}-{unit}.qc.txt"
     params:
         "-a {} {}".format(config["trimming"]["adapter"], config["params"]["cutadapt-se"])

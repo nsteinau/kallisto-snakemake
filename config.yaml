@@ -23,6 +23,9 @@ ref:
   index: "../STAR/ctat_genome_lib_build_dir/ref_genome.fa.star.idx"
   # gtf file with transcripts
   annotation: "../STAR/ctat_genome_lib_build_dir/ref_annot.gtf"
+  fusion_index: "../STAR/ctat_genome_lib_build_dir"
+
+star_fusion: false
 
 pca:
   labels:
@@ -39,7 +42,6 @@ diffexp:
 params:
   star: >
     --outReadsUnmapped None \
-          --twopassMode Basic \
           --outSAMstrandField intronMotif \
           --outSAMunmapped Within \
           --chimSegmentMin 12 \
