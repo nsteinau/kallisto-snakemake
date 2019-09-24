@@ -29,7 +29,7 @@ if config["star_fusion"]:
             # optional parameters
             extra=config["params"]["star"]
         threads: 24
-        conda: "../envs/star.yaml"
+        #conda: "../envs/star.yaml"
         script: "../scripts/custom_star.py"
 
 else:
@@ -48,5 +48,5 @@ else:
             # optional parameters
             extra=config["params"]["star"]
         threads: 24
-        conda: "../envs/star.yaml"
+        #conda: "../envs/star.yaml"
         script: "../scripts/custom_star.py"

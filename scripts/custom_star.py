@@ -41,4 +41,5 @@ shell(
     "{readcmd} "
     "--outFileNamePrefix {outprefix} "
     "--outStd Log "
-    "{log}")
+    "{log} && echo 'successful alignment!' || "
+    "touch {snakemake.output[0]} && touch {snakemake.output[1]}")

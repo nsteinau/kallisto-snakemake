@@ -39,7 +39,7 @@ singularity: "docker://continuumio/miniconda3"
 
 report: "report/workflow.rst"
 
-ruleorder: cutadapt > get_fastq
+ruleorder: cutadapt > get_fastq > star_se
 
 ##### load rules #####
 include: "rules/common.smk"
