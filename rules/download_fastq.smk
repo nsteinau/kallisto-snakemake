@@ -1,19 +1,15 @@
 
 rule get_fastq:
     output:
-        temp("{sample}-{unit}.fastq.gz")
-
-
-    threads: 24
+        temp("tempfastqs/{sample}/{sample}.fastq.gz")
     shell:
         """
-        (prefetch -o {wildcards.unit}.sra {wildcards.unit} &&
-        parallel-fastq-dump -t {threads} --gzip -s {wildcards.unit} &&
-        mv {wildcards.unit}.fastq.gz -T {output[0]} &&
+        (prefetch -o {wildcards.sample}.sra {wildcards.sample} &&
+        parallel-fastq-dump -t {threads} --gzip -s {wildcards.sample} &&
+        mkdir tempfastqs &&
+        mkdir tempfastqs/{wildcards.sample} &&
+        mv {wildcards.sample}.fastq.gz {output} &&
         echo 'successful FASTQ download!') ||
-        (touch {output[0]} &&
-        mkdir star/{wildcards.sample}-{wildcards.unit} &&
-        touch star/{wildcards.sample}-{wildcards.unit}/Aligned.out.bam &&
-        touch star/{wildcards.sample}-{wildcards.unit}/ReadsPerGene.out.tab &&
+        (touch {output} &&
         echo 'unsuccessful FASTQ download: skipping this sample')
         """
