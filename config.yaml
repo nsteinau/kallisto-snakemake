@@ -9,4 +9,4 @@ accessions: "SRR_Acc_List.txt"
 
 ref:
   # the STAR index
-  index: "../homo_sapiens/transcriptome.idx"
+  index: "../genomes/kallisto/transcriptome.idx"

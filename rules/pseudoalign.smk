@@ -1,12 +1,13 @@
 
 rule kallisto_quant:
     input:
-        "tempfastqs/{sample}/{sample}.fastq.gz"
+        "{sample}.fastq.gz"
     output:
         directory('kallisto_quant/{sample}')
     params:
         index = config["ref"]["index"],
         extra = ""
+    threads: 32
     log:
         "logs/kallisto_quant_{sample}.log"
     shell:

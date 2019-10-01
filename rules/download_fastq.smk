@@ -1,13 +1,12 @@
 
 rule get_fastq:
     output:
-        temp("tempfastqs/{sample}/{sample}.fastq.gz")
+        temp("{sample}.fastq.gz")
+    threads: 32
     shell:
         """
         (prefetch -o {wildcards.sample}.sra {wildcards.sample} &&
-        parallel-fastq-dump -t {threads} --gzip -s {wildcards.sample} &&
-        mkdir tempfastqs &&
-        mkdir tempfastqs/{wildcards.sample} &&
+        parallel-fastq-dump -t {threads} --gzip -s {wildcards.sample} -O . &&
         mv {wildcards.sample}.fastq.gz {output} &&
         echo 'successful FASTQ download!') ||
         (touch {output} &&
