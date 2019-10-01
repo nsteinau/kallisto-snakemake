@@ -1,6 +1,6 @@
 
-samples = pd.read_table(config["accessions"], header=None,names=["accessions"],index_col=False).loc([:,'accessions']).tolist()
-
+samples = pd.read_table(config["accessions"], header=None,names=["accessions"],index_col=False)
+samples = samples['accessions'].tolist()
 rule count_matrix:
     input:
         files=expand('kallisto_quant/{samps}/abundance.tsv',samps=samples),
