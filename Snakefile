@@ -16,7 +16,10 @@ samples = pd.read_table(config["accessions"], header=None,names=["accessions"],i
 
 rule all:
     input:
-        expand("kallisto_quant/{sample}",sample=samples['accessions'].tolist())
+        expand("kallisto_quant/{sample}",sample=samples['accessions'].tolist()),
+        "counts/counts.tsv",
+        "counts/tpm.tsv"
+
 
 ##### setup singularity #####
 
@@ -37,4 +40,4 @@ include: "rules/pseudoalign.smk"
 #include: "rules/qc.smk"
 #include: "rules/detect_fusions.smk"
 include: "rules/download_fastq.smk"
-#include: "rules/diffexp.smk"
+include: "rules/combine_counts.smk"

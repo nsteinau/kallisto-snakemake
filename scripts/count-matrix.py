@@ -1,32 +1,21 @@
-import pandas as pd
-import os
-def get_column(strandedness):
-    if pd.isnull(strandedness) or strandedness == "none":
-        return 1 #non stranded protocol
-    elif strandedness == "yes":
-        return 2 #3rd column
-    elif strandedness == "reverse":
-        return 3 #4th column, usually for Illumina truseq
-    else:
-        raise ValueError(("'strandedness' column should be empty or have the "
-                          "value 'none', 'yes' or 'reverse', instead has the "
-                          "value {}").format(repr(strandedness)))
 
 # Remove empty count tables from input
 
-def is_non_zero_file(fpath):
-    return os.path.isfile(fpath) and os.path.getsize(fpath) > 0
-input_files = [f for f in snakemake.input if is_non_zero_file(f)]
 
-counts = [pd.read_table(f, index_col=0, usecols=[0, get_column(strandedness)],
-          header=None, skiprows=4)
-          for f, strandedness in zip(input_files, snakemake.params.strand)]
+input_files = {sample:f for sample,f in zip(snakemake.params['samples'],snakemake.input['files']) if pd.read_table(f,index_col=0).sum(level='est_counts')>0}
+est_counts = [pd.read_table(f, index_col=0, usecols=[0,3]) for f in values(input_files)]
+tpm = [pd.read_table(f, index_col=0, usecols=[0,4]) for f in values(input_files)]
 
-for t, sample in zip(counts, snakemake.params.samples):
+for t, sample in zip(est_counts, keys(input_files)):
+    t.columns = [sample]
+for t, sample in zip(tpm, keys(input_files)):
     t.columns = [sample]
 
-matrix = pd.concat(counts, axis=1)
-matrix.index.name = "gene"
+est_counts = pd.concat(est_counts, axis=1)
+est_counts.index.name = "transcript"
+tpm = pd.concat(tpm, axis=1)
+tpm.index.name = "transcript"
 # collapse technical replicates
-matrix = matrix.groupby(matrix.columns, axis=1).sum()
-matrix.to_csv(snakemake.output[0], sep="\t")
+
+est_counts.to_csv(snakemake.output[0], sep="\t")
+tpm.to_csv(snakemake.output[1], sep="\t")
