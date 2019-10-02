@@ -3,7 +3,7 @@ samples = pd.read_table(config["accessions"], header=None,names=["accessions"],i
 samples = samples['accessions'].tolist()
 rule count_matrix:
     input:
-        files=expand('kallisto_quant/{samps}/abundance.tsv',samps=samples),
+        files=expand('kallisto_quant/{samps}/abundance.tsv',samps=samples)
     output:
         "counts/counts.tsv",
         "counts/tpm.tsv"
